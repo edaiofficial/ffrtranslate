@@ -1,0 +1,585 @@
+{% load static %}
+<html>
+<head>
+	
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+       <link rel="stylesheet" type="text/css" href="{% static 'css/design.css' %}" />
+    
+      
+ </head>
+ 
+ <body>
+	<nav class="navbar navbar-expand-lg navbar-custom fixed-top">
+		<a class="navbar-brand active" href="#"><div class="wordart">
+			<h1 class="preview" data-content="CodePen">FFRTranslate</h1>
+		  </div></a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+		  <span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNav">
+		  <ul class="navbar-nav">
+			<li class="nav-item ">
+			  <a class="nav-link headerLink" href="https://www.aclweb.org/anthology/2020.winlp-1.21/" target="_blank">Paper</a>
+			</li>
+			<li class="nav-item">
+			  <a class="nav-link headerLink" href="https://github.com/bonaventuredossou/ffr-v1" target="_blank">Github</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link headerLink" href="https://github.com/bonaventuredossou/ffr-v1" target="_blank">Other Projects</a>
+			  </li>
+			
+		  </ul>
+		  </div>
+		  
+	
+
+
+	  </nav>
+	
+ 
+	<section> 
+</section>
+  
+<section id="contact">
+	
+    <div class="contact-section">
+			<div class="container form-group row">
+				
+					<div class="forTextArea col" id="transDiv1">
+						<div class="panel-heading">
+							<span class="fromLang" id="fromFrench">French</span>
+							<span class="fromLang" id="fromFon">Fon</span>
+							<span class="fromLang settings" id="surprise" onclick="surprise()" >Surprise Me!</span>
+							<div class="loader" id="loader"></div>
+							
+						
+</div>
+					    
+<div class="panel-body form-group shadow-textarea">	  	
+	<div class="translation fromtranslatedBox" id="original" name="sent" oninput="tryTranslate()" contenteditable="true" data-placeholder="Enter your text here"></div>			
+
+</div>
+			  			
+			  		</div>
+			  		<div class="forTextArea col" id="transDiv2">
+						<div class="panel-heading">
+							<span class="fromLang" id="toFrench">French</span>
+							<span class="fromLang" id="toFon">Fon</span>
+							<span class="fromLang settings" id="settings" data-toggle="modal" data-target="#myModal">Suggest Translation</span>
+							
+
+							 <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog toCenter">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+			<h5 class="modal-title toCenter">Suggest a Translation <br> <small> Suggérer une traduction </small></h5>
+          <button type="button" class="close" data-dismiss="modal" id="closeSgtBtn">&times;</button>
+         
+
+        </div>
+        <div class="modal-body">
+        
+			<div class="toast-body">
+				<div class="form-group">
+					<label for="frenchSuggest">French <br><small>Français</small></label>
+					<input type="text" class="form-control" id="frenchSuggest">
+				  </div>
+				  <div class="form-group">
+					<label for="fonSuggest">Fon</label>
+					<input type="text" class="form-control" id="fonSuggest">
+				  </div>
+
+				  <div class="form-group toCenter">
+					
+					<label for="customRange3" class="form-label">Translation score <br> <small> Score de traduction</small>  </label>
+					<br>
+					
+					<input type="range" class="form-range " min="0" max="5" step="0.5" id="customRange3" value="0">
+					<br>
+					<small id="passwordHelpInline" class="text-muted">
+						How correct is this translation? <br>Dans quelle mesure cette traduction est-elle correcte?
+					  </small>
+					  <br>
+					
+					
+				  </div>
+				
+				
+			</div>
+
+
+        </div>
+        <div class="modal-footer">
+			<span class="suggestAlert" id='suggestAlert'></span>
+			<input type="submit" name="submit" value="Submit (Soumettre)" onclick="submitSuggestion()">
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+  <!--End of modal-->
+						
+</div>
+<div class="panel-body form-group">
+	<div id="translated" class="formcontrol translation totranslatedBox"></div>
+						</div>
+			  			
+			 
+				</div></div></div>
+		</section>
+
+
+	<script type="text/javascript" src="{% static 'js/translate.js' %}"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+	
+ <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.2.11/dist/tf.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<script>
+	window.onload = (event) => {
+
+		var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+		var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+			//console.log(tooltipTriggerList);
+		return new bootstrap.Tooltip(tooltipTriggerEl);
+		})
+		console.log(tooltipList);
+
+		document.getElementById("fromFrench").click(); // Click on the French to set it as default
+	
+	  };
+	
+	
+	var trackType=0;
+	var oldTrack;
+	function tryTranslate(){
+	//	console.log("here");
+	trackType = trackType+1;
+	if (trackType==1){
+		//console.log("getTyping called now");
+		oldTrack = trackType;
+		getTyping();
+	
+	}
+	}
+	
+	
+	
+	function getTyping(){
+		setTimeout(function () {
+			//console.log("old:",oldTrack);
+			//console.log("new:",trackType);
+			
+			if (oldTrack == trackType) {
+				//The person has probably stopped typing. We can translate
+				translate();
+			}
+			else{
+				oldTrack = trackType;
+				setTimeout(getTyping,125);
+			}
+		}, 500);
+
+	};
+	
+	let submitSuggestion = function(){
+		var alertBox = document.getElementById("suggestAlert");
+		var fr = 	document.getElementById("frenchSuggest").value;
+		var fon = document.getElementById("fonSuggest").value;
+		var score = document.getElementById("customRange3").value;
+		
+		var error =0;
+		var errString=''
+		//Check they are ok
+		if (fr==''){
+
+			errString = errString + "French sentence empty!<br>(Phrase vide pour French)" + "<br>";
+			error=1
+		}
+		if (fon==''){
+			errString = errString + "Fon sentence empty!<br>(Phrase vide pour Fon)" + "<br>";
+			error=1
+		}
+		if(score==0){
+			errString = errString + "Score empty!<br>(partition vide)";
+			error=1
+		}
+
+	
+		if(error==0){
+			//Update to database
+			//Say Thank you
+			console.log("Thank you for your translation!");
+			document.getElementById("closeSgtBtn").click();
+		}
+
+		else if (error=1){
+			
+			alertBox.innerHTML=errString;
+			alertBox.style.display="inherit";
+		}
+
+		
+		
+
+
+	}
+
+	let surprise = function(){
+		var orig = document.getElementById('original');
+		$.ajax({
+			type: "POST",
+			url: "{{'surpriseSent'}}",   
+			data: {csrfmiddlewaretoken: '{{ csrf_token }}',
+				  text: ''},   /* Passing the text data */
+			success:  function(response){
+				orig.textContent = response;
+				translate();
+
+		}
+
+		
+			
+		});
+
+	}
+
+	let toSuggest = function(){
+		//console.log("Called suggestion box");
+		var orig = document.getElementById('original').textContent;
+		if (orig!=''){
+			$.ajax({
+				type: "POST",
+				url: "{{'getLang4Suggestion'}}",   
+				data: {csrfmiddlewaretoken: '{{ csrf_token }}',
+					  text: 'fr'},   /* Passing the text data */
+				success:  function(response){
+
+				
+			if(response=='fr'){
+				document.getElementById("frenchSuggest").value=orig;
+				document.getElementById("fonSuggest").value='';
+			}
+			
+			else if (response ='fon'){
+				
+				document.getElementById("fonSuggest").value=orig;
+				document.getElementById("frenchSuggest").value='';
+				
+				   }
+			}
+
+			
+				
+			});
+
+
+		}
+
+	}
+
+	document.getElementById("closeSgtBtn").onclick =function(){
+
+		document.getElementById("frenchSuggest").value='';
+				document.getElementById("fonSuggest").value='';
+				document.getElementById("customRange3").value = 0;
+				document.getElementById("suggestAlert").style.display='none';
+	} 
+
+	let translate = function() {
+		trackType=0;
+		var v = document.getElementById('translated');
+			var loader = document.getElementById("loader");
+			
+			var orig = document.getElementById('original').textContent;
+			//console.log("Working on:",orig);
+			//console.log(orig);
+			if (orig!=''){
+				loader.style.display="inherit";
+			//console.log("working")
+			$.ajax({
+				type: "POST",
+				url: "{{'translate'}}",   
+				data: {csrfmiddlewaretoken: '{{ csrf_token }}',
+					  text: orig},   /* Passing the text data */
+				success:  function(response){
+					loader.style.display="none";
+					v.style.backgroundColor="rgba(197, 197, 197, 0.89)";
+					
+					//console.log(response);
+					if (response==1){
+						//Means we have entered the no translation part.
+				
+					v.innerHTML = "Sorry, we could not translate this. Please consider helping us by <a href='#' class='suggestLang' data-toggle='modal' data-target='#myModal' onclick='toSuggest()'>suggesting a translation</a>? <br> <br> <br> Pourriez-vous nous aider en <a href='#' class='suggestLang' data-toggle='modal' data-target='#myModal' onclick='toSuggest()'>suggérant une traduction</a>?";
+						}
+					else{
+					v.innerHTML = response;
+					}
+				   }
+			});
+		}
+		else{
+			var v = document.getElementById('translated');
+		
+					v.innerHTML = '';
+		}
+		//	console.log("Final answer give");
+		};
+
+
+		document.getElementById("fromFrench").onclick = function takeFrench(){
+			//	console.log("Working on answer");
+		//console.log('clicked');
+			var toAdd = document.getElementById("fromFrench");
+				var toRemove = document.getElementById('fromFon');
+				toRemove.style.removeProperty('text-decoration-color');
+				toRemove.style.removeProperty('text-decoration-thickness');
+				toRemove.style.removeProperty('text-decoration-line', 'underline');
+
+				var toRemove2 = document.getElementById('toFrench');
+				toRemove2.style.removeProperty('text-decoration-color');
+				toRemove2.style.removeProperty('text-decoration-thickness');
+				toRemove2.style.removeProperty('text-decoration-line', 'underline');
+
+				toAdd.style.setProperty('text-decoration-line', 'underline');
+				toAdd.style.setProperty('text-decoration-color', '#555');
+				toAdd.style.setProperty('text-decoration-thickness', '20%');
+
+
+				var addTo =  document.getElementById("toFon");
+				addTo.style.setProperty('text-decoration-line', 'underline');
+				addTo.style.setProperty('text-decoration-color', '#555');
+				addTo.style.setProperty('text-decoration-thickness', '20%');
+
+				//console.log(orig);
+				$.ajax({
+					type: "POST",
+					url: "{{'getLang'}}",   
+					data: {csrfmiddlewaretoken: '{{ csrf_token }}',
+						  text: 'fr'},   /* Passing the text data */
+					success:  function(response){
+						//console.log(response);
+						var v = document.getElementById('original');
+						v.setAttribute("data-placeholder", response);
+						
+					   }
+				});
+				var orig = document.getElementById('original').textContent;
+				//console.log(orig);
+				if (orig!=' '){
+					translate();
+				}
+			};
+		
+			//takeFrench();
+
+			document.getElementById("fromFon").onclick = function takeFon(){
+				//	console.log("Working on answer");
+				
+				var toAdd = document.getElementById("fromFon");
+					var toRemove = document.getElementById('fromFrench');
+					toRemove.style.removeProperty('text-decoration-color');
+					toRemove.style.removeProperty('text-decoration-thickness');
+					toRemove.style.removeProperty('text-decoration-line', 'underline');
+
+					var toRemove2 = document.getElementById('toFon');
+					toRemove2.style.removeProperty('text-decoration-color');
+					toRemove2.style.removeProperty('text-decoration-thickness');
+					toRemove2.style.removeProperty('text-decoration-line', 'underline');
+	
+					toAdd.style.setProperty('text-decoration-line', 'underline');
+					toAdd.style.setProperty('text-decoration-color', '#555');
+					toAdd.style.setProperty('text-decoration-thickness', '20%');
+	
+	
+					var addTo =  document.getElementById("toFrench");
+					addTo.style.setProperty('text-decoration-line', 'underline');
+					addTo.style.setProperty('text-decoration-color', '#555');
+					addTo.style.setProperty('text-decoration-thickness', '20%');
+	
+					//console.log(orig);
+					$.ajax({
+						type: "POST",
+						url: "{{'getLang'}}",   
+						data: {csrfmiddlewaretoken: '{{ csrf_token }}',
+							  text: 'fon'},   /* Passing the text data */
+						success:  function(response){
+							//console.log(response);
+							var v = document.getElementById('original');
+							v.setAttribute("data-placeholder", response);
+						
+						   }
+					});
+					var orig = document.getElementById('original').value;
+					if (orig!=' '){
+						translate();
+					}
+				};
+</script>
+
+        </body>
+
+
+
+		<section class="">
+			<!-- Footer -->
+			<footer class="bg-secondary text-white text-center text-md-start footer">
+			  <!-- Grid container -->
+			  <div class="container p-4">
+				<!--Grid row-->
+				<div class="row">
+				  <!--Grid column-->
+				  <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+					<h5 class="text-uppercase">About ffrtranslate</h5>
+				
+		  
+					<p>
+						FFRTranslate is a major step towards creating a robust translation model from Fon, a very
+						 low-resource and tonal language, to French, for research and public use. Please consider donating to help us.
+					</p>
+				  </div>
+			
+<!--Image part owners-->
+
+<div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+	<h5 class="text-uppercase mb-0">Project Owners</h5>
+	
+	
+	<div id="carouselOwners" class="carousel slide" data-ride="carousel">
+	
+		<div class="carousel-inner">
+		  <div class="carousel-item">
+		
+			<img class="" src="{% static 'static/femi.jpg' %}" alt="Bonaventure Dossou" width="130" height="130">
+			<span></span>
+			<p class='toBottom'><a target="_blank" class="footerLink" href="https://twitter.com/bonadossou">Bonaventure Dossou</a></p> 
+		  </div>
+
+		  <div class="carousel-item active">
+		
+			<img class="" src="{% static 'static/bestme_face.jpg' %}" alt="Chris Emezue" width="130" height="130">
+			<span></span>
+			<p class='toBottom'><a target="_blank" class="footerLink" href="https://twitter.com/ChrisEmezue">Chris Emezue</a></p> 
+		  </div>
+
+		  
+		
+		</div>
+		<a class="carousel-control-prev" href="#carouselOwners" role="button" data-slide="prev">
+		  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+		  <span class="sr-only">Previous</span>
+		</a>
+		<a class="carousel-control-next" href="#carouselOwners" role="button" data-slide="next">
+		  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+		  <span class="sr-only">Next</span>
+		</a>
+	  </div>
+
+
+  </div>
+
+
+<!--Image part owners-->
+
+				  <!--Image part  Contributors-->
+
+				  <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+					<h5 class="text-uppercase mb-0">Contributors</h5>
+					
+					
+					<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+					
+						<div class="carousel-inner">
+						
+
+
+						  <div class="carousel-item active">
+						
+							<img class="" src="{% static 'static/ms.jpg' %}" alt="Masakhane" width="130" height="130">
+							<span></span>
+							<p class='toBottom'><a target="_blank" class="footerLink" href="https://www.masakhane.io/">MASAKHANE</a></p> 
+						  </div>
+
+						  <div class="carousel-item">
+						
+							<img class="" src="{% static 'static/ricardo.jpg' %}" alt="Ricardo Ahounvlame" width="130" height="130">
+							<span></span>
+							<p class='toBottom'><a target="_blank" class="footerLink" href="">Ricardo Ahounvlame</a></p> 
+						  </div>
+
+						  <div class="carousel-item">
+						
+							<img class="" src="{% static 'static/bill2.png' %}" alt="Fabroni Yoclounon" width="130" height="130">
+							<span></span>
+							<p class='toBottom'><a target="_blank" class="footerLink" href="">Fabroni Yoclounon</a></p> 
+						  </div>
+
+
+						
+						</div>
+						<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+						  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+						  <span class="sr-only">Previous</span>
+						</a>
+						<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+						  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+						  <span class="sr-only">Next</span>
+						</a>
+					  </div>
+				
+				
+				  </div>
+
+
+				   <!--Image part Contributors-->
+
+
+				   
+
+
+				    <!--Grid column-->
+					<div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+						<h5 class="text-uppercase mb-0">Donation</h5>
+			  
+						<ul class="list-unstyled">
+						  <li>
+							<a href="https://gofund.me/9fff11fa" target="_blank" class="footerLink">GoFundME</a>
+						  </li>
+						  <li>
+							<a href="https://www.paypal.com/paypalme/ffrtranslate" target="_blank" class="footerLink">Paypal</a>
+						  </li>
+					
+						</ul>
+					  </div>
+					  <!--Grid column-->
+				  
+		  
+			
+				</div>
+			
+			  </div>
+			  <!-- Grid container -->
+		  
+			  <!-- Copyright -->
+			  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+				© Copyright: <a href='mailto:{{femail}}'>{{first}}</a> -<a href='mailto:{{semail}}'> {{second}}</a> | {{month}} {{year}}
+			  </div>
+			  <!-- Copyright -->
+			</footer>
+			<!-- Footer -->
+		  </section>
+
+		</html>
